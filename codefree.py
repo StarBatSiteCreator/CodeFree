@@ -7,6 +7,13 @@ CONFIG_FILE = 'config.txt'
 CODES_FILE = 'codes.txt'
 REASON_FILE = 'lost_codes_reason.txt'
 
+# Funções Python que o programa pode executar via comandos configurados
+funcoes_disponiveis = {
+    'print': print,
+    'input': input,
+    # você pode adicionar outras funções aqui se quiser
+}
+
 
 def create_default_config():
     """Cria o arquivo config.txt base, se não existir."""
@@ -54,7 +61,7 @@ def generate_codes_file():
 def dramatic_message():
     """Mostra a mensagem dramática e melancólica."""
     lines = [
-        "😔 ... 'codes.txt' desapareceu. O coração do programa está vazio.",
+        "😢 ... 'codes.txt' desapareceu. O coração do programa está vazio.",
         "Sem ele, nada funciona. A essência se foi.",
         "Este arquivo não é só um pedaço de código; é a alma que move tudo.",
         "",
@@ -135,12 +142,58 @@ def check_codes_file():
         sys.exit(0)
 
 
+def carregar_comandos(codes_file):
+    """Carrega o mapeamento de comandos do arquivo codes.txt (decodificado)."""
+    comandos = {}
+    try:
+        with open(codes_file, 'rb') as f:
+            data = f.read()
+        decoded = base64.b64decode(data).decode('utf-8')
+        for linha in decoded.splitlines():
+            linha = linha.strip()
+            if not linha:
+                continue
+            # Exemplo de linha: ey is function"print"
+            if ' is function"' in linha:
+                partes = linha.split(' is function"')
+                nome_cmd = partes[0].strip()
+                nome_func = partes[1].rstrip('"').strip()
+                if nome_func in funcoes_disponiveis:
+                    comandos[nome_cmd] = funcoes_disponiveis[nome_func]
+    except Exception as e:
+        print(f"Erro ao carregar comandos: {e}")
+    return comandos
+
+
+def executar_comando(comandos, entrada):
+    partes = entrada.strip().split(' ', 1)
+    cmd = partes[0]
+    arg = partes[1] if len(partes) > 1 else ''
+    if cmd in comandos:
+        func = comandos[cmd]
+        if func == input:
+            resposta = func(arg)
+            print(f"Você respondeu: {resposta}")
+        else:
+            func(arg)
+    else:
+        print(f"Comando '{cmd}' não reconhecido.")
+
+
 def main():
     create_default_config()
     generate_codes_file()
     check_codes_file()
     print("Arquivo 'codes.txt' encontrado. O programa seguirá normalmente.\n")
-    # Aqui você pode continuar com o resto do seu programa CodeFree
+
+    comandos = carregar_comandos(CODES_FILE)
+
+    while True:
+        entrada = input('Digite um comando (ou "sair" para encerrar): ')
+        if entrada.lower() in ('sair', 'exit'):
+            print("Encerrando o programa. Até mais!")
+            break
+        executar_comando(comandos, entrada)
 
 
 if __name__ == "__main__":
