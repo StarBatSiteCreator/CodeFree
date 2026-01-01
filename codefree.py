@@ -145,7 +145,7 @@ def check_codes_file():
         if restore_codes():
             print("\nRestaurado com sucesso! Reinicie o programa para continuar.")
         else:
-            print("\nNão foi possÃ­vel restaurar. Por favor, providencie o arquivo 'codes.txt' manualmente.")
+            print("\nNão foi possível restaurar. Por favor, providencie o arquivo 'codes.txt' manualmente.")
         sys.exit(0)
 
 
@@ -191,7 +191,7 @@ def main():
     create_default_config()
     generate_codes_file()
     check_codes_file()
-    print("Arquivo 'codes.txt' encontrado. O programa seguirÃ¡ normalmente.\n")
+    print("Arquivo 'codes.txt' encontrado. O programa seguirá normalmente.\n")
 
     comandos = carregar_comandos(CODES_FILE)
 
