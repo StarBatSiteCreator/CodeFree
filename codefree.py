@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import base64
+import random
 
 CONFIG_FILE = 'config.txt'
 CODES_FILE = 'codes.txt'
@@ -11,6 +12,12 @@ REASON_FILE = 'lost_codes_reason.txt'
 funcoes_disponiveis = {
     'print': print,
     'input': input,
+    'random': random.random,
+    'choice': random.choice,
+    'shuffle': random.shuffle,
+    'bool': bool,
+    'int': int,
+    'len': len,
     # você pode adicionar outras funções aqui se quiser
 }
 
@@ -59,21 +66,21 @@ def generate_codes_file():
 
 
 def dramatic_message():
-    """Mostra a mensagem dramática e melancólica."""
+    """Mostra a mensagem dramática e melancó0lica."""
     lines = [
-        "😢 ... 'codes.txt' desapareceu. O coração do programa está vazio.",
-        "Sem ele, nada funciona. A essência se foi.",
+        "ðŸ˜¢ ... 'codes.txt' desapareceu. O coração do programa está vazio.",
+        "Sem ele, nada funciona. A essÃªncia se foi.",
         "Este arquivo não é só um pedaço de código; é a alma que move tudo.",
         "",
         "Se apagou por engano, não tema: é possível restaurar.",
         "Basta manter o arquivo 'config.txt' intacto — a fonte da verdade.",
         "",
-        "Para restaurar, o programa tentará criar 'codes.txt' a partir do 'config.txt'.",
+        "Para restaurar, o programa tentarÃ¡ criar 'codes.txt' a partir do 'config.txt'.",
         "Se o 'config.txt' não existir, a restauração não será possível.",
         "",
         "Pense antes de agir. Cada arquivo tem seu valor.",
         "Pressione Enter para tentar restaurar e seguir em frente.",
-        "Ou feche este programa e reflita sobre o vazio deixado para trás.",
+        "Ou feche este programa e reflita sobre o vazio deixado para trÃ¡s.",
     ]
     for line in lines:
         print(line)
@@ -138,7 +145,7 @@ def check_codes_file():
         if restore_codes():
             print("\nRestaurado com sucesso! Reinicie o programa para continuar.")
         else:
-            print("\nNão foi possível restaurar. Por favor, providencie o arquivo 'codes.txt' manualmente.")
+            print("\nNão foi possÃ­vel restaurar. Por favor, providencie o arquivo 'codes.txt' manualmente.")
         sys.exit(0)
 
 
@@ -184,14 +191,14 @@ def main():
     create_default_config()
     generate_codes_file()
     check_codes_file()
-    print("Arquivo 'codes.txt' encontrado. O programa seguirá normalmente.\n")
+    print("Arquivo 'codes.txt' encontrado. O programa seguirÃ¡ normalmente.\n")
 
     comandos = carregar_comandos(CODES_FILE)
 
     while True:
         entrada = input('Digite um comando (ou "sair" para encerrar): ')
         if entrada.lower() in ('sair', 'exit'):
-            print("Encerrando o programa. Até mais!")
+            print("Encerrando o programa. até mais!")
             break
         executar_comando(comandos, entrada)
 
